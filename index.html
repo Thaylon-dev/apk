@@ -65,6 +65,8 @@
         .shell { max-width: 1160px; margin: 0 auto; padding: 0 48px; }
 
         .topbar {
+            position: relative;
+            z-index: 5;
             height: 82px;
             display: flex;
             align-items: center;
@@ -85,7 +87,20 @@
         .brand-name { font-size: 19px; font-weight: 720; letter-spacing: -.7px; }
         .top-note { display: flex; align-items: center; gap: 9px; color: var(--muted); font-size: 13px; }
         .live-dot { width: 8px; height: 8px; border-radius: 50%; background: #49a878; box-shadow: 0 0 0 4px #e6f2e9; }
-        .header-actions { display: flex; align-items: center; gap: 22px; }
+        .header-actions { display: flex; align-items: center; gap: 16px; }
+        .hamburger-wrap { position: relative; }
+        .menu-toggle { width: 40px; height: 40px; display: grid; place-content: center; gap: 5px; padding: 0; border: 1px solid var(--line); border-radius: 10px; background: var(--paper); cursor: pointer; }
+        .menu-toggle:hover { border-color: #b6d0bf; }
+        .menu-toggle span { width: 17px; height: 2px; border-radius: 2px; background: var(--ink); transition: transform .18s, opacity .18s; }
+        .menu-toggle[aria-expanded="true"] span:first-child { transform: translateY(7px) rotate(45deg); }
+        .menu-toggle[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+        .menu-toggle[aria-expanded="true"] span:last-child { transform: translateY(-7px) rotate(-45deg); }
+        .menu-panel { position: absolute; top: calc(100% + 10px); right: 0; width: min(260px, calc(100vw - 40px)); padding: 8px; border: 1px solid var(--line); border-radius: 13px; background: var(--paper); box-shadow: var(--shadow); }
+        .menu-panel a { display: flex; align-items: center; gap: 10px; padding: 11px 12px; border-radius: 8px; color: var(--ink); font-size: 13px; text-decoration: none; }
+        .menu-panel a:hover, .menu-panel a:focus-visible { outline: none; background: var(--subtle); color: var(--green); }
+        .menu-divider { height: 1px; margin: 5px 8px; background: var(--line); }
+        .app-toast { position: fixed; z-index: 20; right: 20px; bottom: 20px; max-width: min(440px, calc(100vw - 40px)); padding: 13px 17px; border: 1px solid var(--line); border-radius: 12px; background: var(--paper); color: var(--ink); box-shadow: var(--shadow); font-size: 13px; line-height: 1.5; }
+        .app-toast[hidden] { display: none; }
         .theme-toggle { display: inline-flex; align-items: center; gap: 7px; padding: 8px 11px; border: 1px solid var(--line); border-radius: 10px; background: var(--paper); color: var(--ink); font-size: 12px; font-weight: 620; cursor: pointer; }
         .theme-toggle:hover { border-color: #b6d0bf; }
 
@@ -160,9 +175,10 @@
         .results-heading { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin-bottom: 13px; }
         .results-heading h2 { margin: 0; font-size: 16px; letter-spacing: -.3px; }
         .results-count { color: var(--muted); font-size: 12px; }
-        .results-list { display: grid; gap: 9px; }
+        .results-list { display: grid; grid-template-columns: minmax(0, 1fr); gap: 9px; }
         .stock-card {
             width: 100%;
+            min-width: 0;
             display: flex;
             align-items: center;
             gap: 14px;
@@ -356,7 +372,7 @@
 </head>
 <body>
     <header class="shell topbar">
-        <a class="brand" href="#" aria-label="Clara, página inicial">
+        <a class="brand" href="#inicio" aria-label="Clara, página inicial">
             <span class="brand-mark" aria-hidden="true">
                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
                     <path d="M3 14.5 7.1 10l3 2.7L17 5.5M12.5 5.5H17v4.6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
@@ -369,11 +385,26 @@
             <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Ativar modo escuro">
                 <span aria-hidden="true">☾</span><span id="theme-label">Modo escuro</span>
             </button>
+            <div class="hamburger-wrap">
+                <button class="menu-toggle" id="menu-toggle" type="button" aria-label="Abrir menu de navegação" aria-expanded="false" aria-controls="menu-panel">
+                    <span></span><span></span><span></span>
+                </button>
+                <nav class="menu-panel" id="menu-panel" aria-label="Navegação do site" hidden>
+                    <a href="#inicio">Início</a>
+                    <a href="#search-section">Buscar ações</a>
+                    <a href="#watchlist">Ações fixadas</a>
+                    <div class="menu-divider" aria-hidden="true"></div>
+                    <a href="#results-area">Resultados e detalhes</a>
+                    <a href="#chart-section">Gráfico histórico</a>
+                    <a href="#simulation-section">Simulação fictícia</a>
+                    <a href="#news-section">Notícias e cenários</a>
+                </nav>
+            </div>
         </div>
     </header>
 
-    <main class="shell">
-        <section class="intro" aria-labelledby="page-title">
+    <main class="shell" id="inicio">
+        <section class="intro" id="search-section" aria-labelledby="page-title">
             <div class="eyebrow">
                 <svg width="15" height="15" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 1.5 9.7 6.3l4.8 1.7-4.8 1.7L8 14.5l-1.7-4.8L1.5 8l4.8-1.7L8 1.5Z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg>
                 Seu mercado, mais claro
@@ -402,7 +433,7 @@
             </div>
         </section>
 
-        <section class="watchlist" aria-labelledby="watchlist-title">
+        <section class="watchlist" id="watchlist" aria-labelledby="watchlist-title">
             <div class="watchlist-head">
                 <h2 id="watchlist-title">Ações fixadas</h2>
                 <span class="watchlist-note" id="watchlist-count"></span>
@@ -420,6 +451,7 @@
         </section>
 
         <p class="disclaimer">As cotações são fornecidas pela brapi e podem apresentar atraso. As informações são apenas para consulta e não constituem recomendação de investimento.</p>
+        <p id="app-status" class="app-toast" role="status" aria-live="polite" hidden></p>
     </main>
     <footer class="shell">Feito para deixar o mercado um pouco mais claro.</footer>
 
@@ -452,6 +484,9 @@
         const suggestions = document.querySelector("#suggestions");
         const watchlistElement = document.querySelector("#watchlist-list");
         const watchlistCount = document.querySelector("#watchlist-count");
+        const appStatus = document.querySelector("#app-status");
+        const menuToggle = document.querySelector("#menu-toggle");
+        const menuPanel = document.querySelector("#menu-panel");
         const safeTicker = (ticker) => /^[A-Z0-9]{4,7}$/.test(ticker);
         let searchController;
         let detailController;
@@ -460,6 +495,8 @@
         let simulationController;
         let selectedTicker = "";
         let lastDataRefreshAt = 0;
+        let watchlistRequestId = 0;
+        let statusTimer;
         let pinnedStocks = readPinnedStocks();
         const simulationHistory = new WeakMap();
 
@@ -471,6 +508,67 @@
             : "—";
         const movementClass = (value) => value > 0 ? "positive" : value < 0 ? "negative" : "";
         const signedPercent = (value) => `${value > 0 ? "+" : ""}${new Intl.NumberFormat("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(value)}%`;
+
+        function announce(message) {
+            window.clearTimeout(statusTimer);
+            appStatus.textContent = message;
+            appStatus.hidden = false;
+            statusTimer = window.setTimeout(() => { appStatus.hidden = true; }, 4500);
+        }
+
+        function closeMenu() {
+            menuPanel.hidden = true;
+            menuToggle.setAttribute("aria-expanded", "false");
+            menuToggle.setAttribute("aria-label", "Abrir menu de navegação");
+        }
+
+        menuToggle.addEventListener("click", () => {
+            const isOpen = menuToggle.getAttribute("aria-expanded") === "true";
+            menuPanel.hidden = isOpen;
+            menuToggle.setAttribute("aria-expanded", String(!isOpen));
+            menuToggle.setAttribute("aria-label", isOpen ? "Abrir menu de navegação" : "Fechar menu de navegação");
+        });
+
+        menuPanel.addEventListener("click", (event) => {
+            const link = event.target.closest("a[href^=\"#\"]");
+            if (!link) return;
+            closeMenu();
+            const target = document.querySelector(link.getAttribute("href"));
+            if (!target || target.hidden || !target.getClientRects().length) {
+                if (link.hash === "#chart-section" || link.hash === "#simulation-section" || link.hash === "#news-section") {
+                    announce("Primeiro busque e abra uma ação para ver o gráfico, a simulação e as notícias.");
+                }
+                if (link.hash === "#results-area" && resultsArea.hidden) {
+                    announce("Busque uma ação para ver os resultados e os detalhes.");
+                }
+                if (link.hash === "#chart-section" || link.hash === "#simulation-section" || link.hash === "#news-section" || link.hash === "#results-area") {
+                    document.querySelector("#search-section").scrollIntoView({ behavior: "smooth" });
+                    input.focus({ preventScroll: true });
+                }
+                return;
+            }
+            target.scrollIntoView({ behavior: "smooth", block: "start" });
+        });
+
+        document.addEventListener("click", (event) => {
+            if (!menuPanel.hidden && !event.target.closest(".hamburger-wrap")) closeMenu();
+        });
+        document.addEventListener("keydown", (event) => {
+            if (event.key === "Escape" && !menuPanel.hidden) {
+                closeMenu();
+                menuToggle.focus();
+            }
+        });
+        window.addEventListener("storage", (event) => {
+            if (event.key !== PINNED_KEY) return;
+            pinnedStocks = readPinnedStocks();
+            renderWatchlist();
+            resultsList.querySelectorAll(".pin-button").forEach((button) => {
+                const ticker = button.closest(".stock-card")?.querySelector(".stock-ticker")?.textContent;
+                if (ticker) updatePinButton(button, ticker);
+            });
+            updateDetailPinButton();
+        });
 
         function setTheme(theme) {
             const isDark = theme === "dark";
@@ -501,10 +599,17 @@
             try {
                 const saved = JSON.parse(localStorage.getItem(PINNED_KEY) || "[]");
                 if (!Array.isArray(saved)) return [];
-                return saved.filter((stock) => stock && typeof stock.ticker === "string" && safeTicker(stock.ticker))
-                    .map((stock) => ({ ticker: stock.ticker, name: String(stock.name || stock.ticker).slice(0, 120) }));
+                const unique = new Map();
+                saved.forEach((stock) => {
+                    if (!stock || typeof stock.ticker !== "string") return;
+                    const ticker = stock.ticker.trim().toUpperCase();
+                    if (!safeTicker(ticker) || unique.has(ticker)) return;
+                    unique.set(ticker, { ticker, name: String(stock.name || ticker).slice(0, 120) });
+                });
+                return [...unique.values()];
             } catch (error) {
                 console.error("Não foi possível ler a lista de ações fixadas:", error);
+                announce("A lista local de ações fixadas está inválida. Você pode fixar novamente suas ações.");
                 return [];
             }
         }
@@ -515,7 +620,7 @@
                 return true;
             } catch (error) {
                 console.error("Não foi possível salvar a lista de ações fixadas:", error);
-                window.alert("Não foi possível salvar as ações neste navegador. Verifique o espaço disponível e as permissões de armazenamento.");
+                announce("Não foi possível salvar as ações neste navegador. Verifique as permissões de armazenamento.");
                 return false;
             }
         }
@@ -652,17 +757,22 @@
         }
 
         function togglePinned(ticker, name) {
-            if (!safeTicker(ticker)) return;
+            ticker = String(ticker || "").trim().toUpperCase();
+            if (!safeTicker(ticker)) {
+                announce("Não foi possível fixar esta ação porque o código recebido é inválido.");
+                return;
+            }
             const existingIndex = pinnedStocks.findIndex((stock) => stock.ticker === ticker);
             const nextStocks = existingIndex >= 0
                 ? pinnedStocks.filter((stock) => stock.ticker !== ticker)
-                : [...pinnedStocks, { ticker, name }];
+                : [...pinnedStocks, { ticker, name: String(name || ticker).slice(0, 120) }];
             const previousStocks = pinnedStocks;
             pinnedStocks = nextStocks;
             if (!savePinnedStocks()) {
                 pinnedStocks = previousStocks;
                 return;
             }
+            announce(existingIndex >= 0 ? `${ticker} removida das ações fixadas.` : `${ticker} adicionada às ações fixadas.`);
             renderWatchlist();
             resultsList.querySelectorAll(".pin-button").forEach((button) => {
                 const cardTicker = button.closest(".stock-card")?.querySelector(".stock-ticker")?.textContent;
@@ -672,9 +782,11 @@
         }
 
         async function renderWatchlist() {
+            const requestId = ++watchlistRequestId;
+            const currentPinnedStocks = [...pinnedStocks];
             watchlistCount.textContent = pinnedStocks.length ? `${pinnedStocks.length} fixada${pinnedStocks.length === 1 ? "" : "s"}` : "";
             watchlistElement.replaceChildren();
-            if (!pinnedStocks.length) {
+            if (!currentPinnedStocks.length) {
                 const empty = document.createElement("p");
                 empty.className = "watchlist-empty";
                 empty.textContent = "Fixe uma ação nos resultados para acompanhar sua cotação aqui. Sua lista fica salva apenas neste navegador.";
@@ -686,18 +798,23 @@
             loading.innerHTML = '<span class="spinner" aria-hidden="true"></span><span>Atualizando ações fixadas...</span>';
             watchlistElement.append(loading);
             try {
-                const tickers = pinnedStocks.map((stock) => stock.ticker);
+                const tickers = currentPinnedStocks.map((stock) => stock.ticker);
                 const data = await fetchJson(`${API_BASE}/quote/${tickers.join(",")}`);
+                if (requestId !== watchlistRequestId) return;
                 const quotes = new Map((data.results || []).map((stock) => [stock.symbol, stock]));
                 watchlistElement.replaceChildren();
-                pinnedStocks.forEach((pinned) => {
+                currentPinnedStocks.forEach((pinned) => {
                     watchlistElement.append(createWatchlistCard(pinned, quotes.get(pinned.ticker)));
                 });
             } catch (error) {
+                if (requestId !== watchlistRequestId) return;
                 watchlistElement.replaceChildren();
+                currentPinnedStocks.forEach((pinned) => {
+                    watchlistElement.append(createWatchlistCard(pinned));
+                });
                 const message = document.createElement("div");
                 message.className = "message error";
-                message.textContent = "Não foi possível atualizar as cotações fixadas. Sua lista continua salva; tente recarregar a página.";
+                message.textContent = "Suas ações continuam fixadas neste navegador, mas não foi possível atualizar as cotações. Você ainda pode abrir os detalhes ou desafixar cada ação.";
                 watchlistElement.append(message);
                 console.error("Falha ao atualizar ações fixadas:", error);
             }
@@ -762,6 +879,7 @@
 
         function createChartSection(ticker, stock) {
             const section = document.createElement("section");
+            section.id = "chart-section";
             section.className = "chart-section";
             section.setAttribute("aria-label", "Gráfico histórico de preços");
             const heading = document.createElement("div");
@@ -1015,6 +1133,7 @@
 
         function createSimulatorSection(ticker) {
             const section = document.createElement("section");
+            section.id = "simulation-section";
             section.className = "simulation-section";
             section.setAttribute("aria-label", "Simulação de investimento fictício");
             const heading = document.createElement("div");
@@ -1191,6 +1310,7 @@
 
         function createEstimateSection(ticker) {
             const section = document.createElement("section");
+            section.id = "news-section";
             section.className = "estimate-section";
             section.setAttribute("aria-label", "Cenários indicativos e notícias");
             const heading = document.createElement("div");
