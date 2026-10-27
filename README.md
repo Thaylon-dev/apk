@@ -1,17 +1,12 @@
-# Clara para Android
+# Clara — consulta de ações
 
-O projeto gera um APK Android instalável e não precisa ser hospedado. A tela do app é incluída no próprio APK; uma conexão com a internet é necessária para consultar as cotações da brapi.
+Site estático para pesquisar ações brasileiras e consultar cotações pela API pública da [brapi](https://brapi.dev/). Não usa banco de dados nem precisa de servidor ou backend: a página e a busca são executadas no navegador.
 
-## Gerar o APK
+## Publicar no GitHub Pages
 
-Com Java 17 e Android SDK (plataforma 35) instalados:
+1. Envie os arquivos deste projeto para a branch `main` do repositório.
+2. No GitHub, abra **Settings → Pages**.
+3. Em **Build and deployment**, selecione **Deploy from a branch**, escolha `main` e a pasta `/(root)`, e salve.
+4. Abra a URL que o GitHub Pages disponibilizar.
 
-```bash
-./gradlew assembleDebug
-```
-
-O APK de depuração será gerado em `app/build/outputs/apk/debug/app-debug.apk`. Para instalar em um aparelho Android conectado com depuração USB ativada:
-
-```bash
-adb install -r app/build/outputs/apk/debug/app-debug.apk
-```
+As cotações precisam de conexão à internet. Elas podem apresentar atraso e são apenas para consulta, não constituindo recomendação de investimento.
