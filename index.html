@@ -23,6 +23,28 @@
             --green-soft: #eaf4ed;
             --red: #bd514b;
             --shadow: 0 18px 50px rgba(32, 54, 41, .07);
+            --subtle: #f7f8f6;
+            --control: #f3f5f3;
+            --icon-bg: #f0f4f0;
+            --grid: #edf0ed;
+        }
+
+        :root[data-theme="dark"] {
+            color-scheme: dark;
+            --ink: #e8eee9;
+            --muted: #a0aca3;
+            --line: #2b3930;
+            --paper: #18221c;
+            --canvas: #101712;
+            --green: #83d6a2;
+            --green-dark: #9ae5b4;
+            --green-soft: #1d3828;
+            --red: #ff9188;
+            --shadow: 0 18px 50px rgba(0, 0, 0, .24);
+            --subtle: #1d2921;
+            --control: #26332b;
+            --icon-bg: #26352b;
+            --grid: #29362e;
         }
 
         * { box-sizing: border-box; }
@@ -63,6 +85,9 @@
         .brand-name { font-size: 19px; font-weight: 720; letter-spacing: -.7px; }
         .top-note { display: flex; align-items: center; gap: 9px; color: var(--muted); font-size: 13px; }
         .live-dot { width: 8px; height: 8px; border-radius: 50%; background: #49a878; box-shadow: 0 0 0 4px #e6f2e9; }
+        .header-actions { display: flex; align-items: center; gap: 22px; }
+        .theme-toggle { display: inline-flex; align-items: center; gap: 7px; padding: 8px 11px; border: 1px solid var(--line); border-radius: 10px; background: var(--paper); color: var(--ink); font-size: 12px; font-weight: 620; cursor: pointer; }
+        .theme-toggle:hover { border-color: #b6d0bf; }
 
         main { padding: 76px 0 68px; }
         .intro { max-width: 690px; margin: 0 auto; text-align: center; }
@@ -122,7 +147,7 @@
             padding: 9px 14px;
             border: 1px solid #e4e9e4;
             border-radius: 999px;
-            background: rgba(255,255,255,.62);
+            background: var(--paper);
             color: #526057;
             font-size: 12px;
             font-weight: 620;
@@ -150,7 +175,8 @@
             transition: border-color .18s, transform .18s, box-shadow .18s;
         }
         .stock-card:hover { transform: translateY(-1px); border-color: #c4d6ca; box-shadow: 0 7px 22px rgba(32,54,41,.05); }
-        .ticker-icon { width: 42px; height: 42px; flex: 0 0 auto; display: grid; place-items: center; border-radius: 13px; background: #f0f4f0; color: var(--green); font-size: 12px; font-weight: 750; }
+        .stock-card-main { min-width: 0; flex: 1; display: flex; align-items: center; gap: 14px; padding: 0; border: 0; background: transparent; text-align: left; cursor: pointer; }
+        .ticker-icon { width: 42px; height: 42px; flex: 0 0 auto; display: grid; place-items: center; border-radius: 13px; background: var(--icon-bg); color: var(--green); font-size: 12px; font-weight: 750; }
         .stock-info { min-width: 0; flex: 1; }
         .stock-ticker { display: block; font-size: 14px; font-weight: 730; }
         .stock-name { display: block; overflow: hidden; margin-top: 4px; color: var(--muted); font-size: 12px; text-overflow: ellipsis; white-space: nowrap; }
@@ -160,21 +186,111 @@
         .positive { color: var(--green); }
         .negative { color: var(--red); }
 
-        .detail-card { margin-top: 22px; padding: 25px; border: 1px solid var(--line); border-radius: 17px; background: white; box-shadow: var(--shadow); }
+        .detail-card { margin-top: 22px; padding: 25px; border: 1px solid var(--line); border-radius: 17px; background: var(--paper); box-shadow: var(--shadow); }
         .detail-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; }
         .detail-title { display: flex; align-items: center; gap: 13px; min-width: 0; }
         .detail-title .ticker-icon { width: 48px; height: 48px; }
         .detail-title h2 { margin: 0; font-size: 18px; }
         .detail-title p { margin: 4px 0 0; color: var(--muted); font-size: 12px; }
-        .close-button { width: 34px; height: 34px; border: 0; border-radius: 9px; background: #f3f5f3; color: #69756d; font-size: 20px; cursor: pointer; }
+        .close-button { width: 34px; height: 34px; border: 0; border-radius: 9px; background: var(--control); color: var(--muted); font-size: 20px; cursor: pointer; }
         .detail-price { margin: 25px 0 22px; }
         .detail-price strong { display: block; font-size: 34px; letter-spacing: -1.2px; }
         .detail-price span { display: inline-block; margin-top: 6px; font-size: 13px; font-weight: 650; }
         .detail-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
-        .metric { padding: 14px; border-radius: 11px; background: #f7f8f6; }
+        .metric { padding: 14px; border-radius: 11px; background: var(--subtle); }
         .metric-label { display: block; color: var(--muted); font-size: 11px; }
         .metric-value { display: block; margin-top: 7px; font-size: 14px; font-weight: 650; }
         .updated { margin: 16px 0 0; color: #929b94; font-size: 11px; }
+        .pin-button { width: 36px; height: 36px; flex: 0 0 auto; display: grid; place-items: center; padding: 0; border: 1px solid var(--line); border-radius: 10px; background: var(--paper); color: var(--muted); font-size: 19px; cursor: pointer; }
+        .pin-button:hover, .pin-button.is-pinned { border-color: #c7ddce; background: var(--green-soft); color: var(--green); }
+        .watchlist { max-width: 800px; margin: 42px auto 0; }
+        .watchlist-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 13px; }
+        .watchlist-head h2, .section-heading h3 { margin: 0; font-size: 16px; letter-spacing: -.3px; }
+        .watchlist-note { color: var(--muted); font-size: 12px; }
+        .watchlist-list { display: grid; gap: 9px; }
+        .watchlist-empty { margin: 0; padding: 18px; border: 1px dashed #dce3dd; border-radius: 13px; color: var(--muted); font-size: 13px; line-height: 1.55; text-align: center; }
+        .watchlist-card { width: 100%; min-width: 0; display: flex; align-items: center; gap: 12px; padding: 13px 15px; border: 1px solid var(--line); border-radius: 13px; background: var(--paper); }
+        .watchlist-open { min-width: 0; flex: 1; display: flex; align-items: center; gap: 12px; padding: 0; border: 0; background: transparent; text-align: left; cursor: pointer; }
+        .watchlist-price { margin-left: auto; text-align: right; white-space: nowrap; }
+        .watchlist-remove { width: 32px; height: 32px; border: 0; border-radius: 8px; background: transparent; color: #879189; font-size: 18px; cursor: pointer; }
+        .watchlist-remove:hover { background: #fbefed; color: var(--red); }
+        .detail-actions { display: flex; align-items: center; gap: 8px; }
+        .pin-detail { display: inline-flex; align-items: center; gap: 7px; min-height: 36px; padding: 0 11px; border: 1px solid var(--line); border-radius: 10px; background: var(--paper); color: var(--muted); font-size: 12px; font-weight: 620; cursor: pointer; }
+        .pin-detail:hover, .pin-detail.is-pinned { border-color: #c7ddce; background: var(--green-soft); color: var(--green); }
+        .chart-section, .estimate-section { margin-top: 26px; padding-top: 22px; border-top: 1px solid var(--line); }
+        .section-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 14px; }
+        .section-heading p { margin: 5px 0 0; color: var(--muted); font-size: 12px; line-height: 1.5; }
+        .chart-price { text-align: right; white-space: nowrap; }
+        .chart-price strong { display: block; font-size: 17px; }
+        .chart-price span { display: block; margin-top: 4px; font-size: 11px; font-weight: 650; }
+        .chart-heading-actions { display: flex; align-items: center; gap: 12px; }
+        .chart-refresh { min-height: 34px; padding: 0 10px; border: 1px solid var(--line); border-radius: 9px; background: var(--paper); color: var(--muted); font-size: 11px; font-weight: 620; cursor: pointer; }
+        .chart-refresh:hover { border-color: #b6d0bf; color: var(--green); }
+        .range-tabs { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 18px; }
+        .range-tab { min-width: 42px; padding: 7px 9px; border: 0; border-radius: 8px; background: transparent; color: #657168; font-size: 11px; font-weight: 650; cursor: pointer; }
+        .range-tab:hover { background: #f2f5f2; }
+        .range-tab[aria-pressed="true"] { background: var(--green-soft); color: var(--green); }
+        .chart-wrap { position: relative; margin-top: 10px; }
+        .price-chart { display: block; width: 100%; height: auto; overflow: visible; }
+        .chart-grid-line { stroke: var(--grid); stroke-width: 1; }
+        .chart-axis-label { fill: var(--muted); font-size: 11px; }
+        .chart-line { fill: none; stroke: var(--green); stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+        .chart-area { fill: url(#chart-fill); }
+        .chart-cursor { stroke: #9eafa3; stroke-width: 1; stroke-dasharray: 4 4; }
+        .chart-marker { fill: var(--paper); stroke: var(--green); stroke-width: 2.5; }
+        .chart-tooltip { min-height: 17px; margin: 4px 0 0; color: #637067; font-size: 11px; text-align: right; }
+        .chart-attribution, .estimate-note { margin: 9px 0 0; color: #89928c; font-size: 11px; line-height: 1.55; }
+        .estimate-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 16px; }
+        .simulation-section { margin-top: 26px; padding-top: 22px; border-top: 1px solid var(--line); }
+        .sim-input-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 17px; }
+        .sim-field { display: grid; gap: 7px; color: var(--muted); font-size: 11px; }
+        .sim-field input { width: 100%; min-height: 42px; padding: 9px 11px; border: 1px solid var(--line); border-radius: 9px; outline: 0; background: var(--paper); color: var(--ink); font-size: 13px; }
+        .sim-field input:focus { border-color: #9abda8; box-shadow: 0 0 0 3px rgba(23, 107, 72, .08); }
+        .simulate-button { min-height: 40px; margin-top: 13px; padding: 0 15px; border: 0; border-radius: 9px; background: var(--green); color: white; font-size: 12px; font-weight: 650; cursor: pointer; }
+        .simulate-button:hover { background: var(--green-dark); }
+        .sim-results { display: grid; grid-template-columns: repeat(3, 1fr); gap: 9px; margin-top: 16px; }
+        .sim-results[hidden] { display: none; }
+        .sim-profit { padding: 14px; border-radius: 11px; background: var(--green-soft); color: var(--green); }
+        .sim-profit.negative { background: #fbefed; color: var(--red); }
+        .sim-profit span { display: block; font-size: 11px; }
+        .sim-profit strong { display: block; margin-top: 6px; font-size: 17px; }
+        .sim-status { margin: 11px 0 0; color: var(--muted); font-size: 11px; line-height: 1.5; }
+        .estimate-metric { padding: 13px; border: 1px solid var(--line); border-radius: 11px; background: var(--subtle); }
+        .estimate-metric span { display: block; color: var(--muted); font-size: 11px; }
+        .estimate-metric strong { display: block; margin-top: 7px; font-size: 14px; }
+        .estimate-sentiment { display: inline-flex; align-items: center; gap: 7px; margin-top: 14px; padding: 7px 10px; border-radius: 999px; background: #f3f5f3; color: #59665d; font-size: 11px; font-weight: 650; }
+        .estimate-sentiment.positive { background: var(--green-soft); color: var(--green); }
+        .estimate-sentiment.negative { background: #fbefed; color: var(--red); }
+        .retry-button { margin: 10px 0 0; padding: 7px 10px; border: 1px solid #e6c8c4; border-radius: 8px; background: white; color: var(--red); font-size: 11px; font-weight: 650; cursor: pointer; }
+        .news-list { display: grid; gap: 0; margin-top: 17px; border-top: 1px solid var(--line); }
+        .news-item { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; padding: 13px 0; border-bottom: 1px solid var(--line); }
+        .news-link { color: var(--ink); font-size: 12px; font-weight: 620; line-height: 1.5; text-decoration: none; }
+        .news-link:hover { color: var(--green); text-decoration: underline; }
+        .news-meta { display: block; margin-top: 5px; color: #89928c; font-size: 10px; }
+        .news-tone { flex: 0 0 auto; padding: 5px 7px; border-radius: 999px; background: var(--control); color: var(--muted); font-size: 10px; }
+
+        :root[data-theme="dark"] .search-button { color: #102118; }
+        :root[data-theme="dark"] .simulate-button { color: #102118; }
+        :root[data-theme="dark"] .live-dot { background: #83d6a2; box-shadow: 0 0 0 4px #1d3828; }
+        :root[data-theme="dark"] .message { background: var(--paper); }
+        :root[data-theme="dark"] .message.error { border-color: #55312e; background: #2a1c1b; }
+        :root[data-theme="dark"] .message.error strong { color: var(--red); }
+        :root[data-theme="dark"] .error .retry-button { border-color: #68403a; background: #261b1a; }
+        :root[data-theme="dark"] .chip:hover, :root[data-theme="dark"] .close-button:hover, :root[data-theme="dark"] .range-tab:hover { background: var(--control); }
+        :root[data-theme="dark"] .positive.estimate-sentiment, :root[data-theme="dark"] .positive.news-tone { background: var(--green-soft); }
+        :root[data-theme="dark"] .negative.estimate-sentiment, :root[data-theme="dark"] .negative.news-tone { background: #3a2422; }
+        :root[data-theme="dark"] .estimate-sentiment { background: var(--control); color: var(--muted); }
+        :root[data-theme="dark"] .news-tone { background: var(--control); }
+        :root[data-theme="dark"] .watchlist-remove:hover { background: #3a2422; }
+        :root[data-theme="dark"] .chart-cursor { stroke: #82988a; }
+        :root[data-theme="dark"] .chart-line { stroke: #83d6a2; }
+        :root[data-theme="dark"] .chart-area { fill: url(#chart-fill); }
+        :root[data-theme="dark"] .chart-marker { stroke: #83d6a2; }
+        :root[data-theme="dark"] .chart-attribution, :root[data-theme="dark"] .estimate-note, :root[data-theme="dark"] .news-meta, :root[data-theme="dark"] .updated, :root[data-theme="dark"] footer, :root[data-theme="dark"] .disclaimer { color: #9aa79e; }
+        :root[data-theme="dark"] .brand-mark { color: #102118; }
+        :root[data-theme="dark"] .sim-profit.negative { background: #3a2422; }
+        .news-tone.positive { background: var(--green-soft); color: var(--green); }
+        .news-tone.negative { background: #fbefed; color: var(--red); }
 
         .message {
             display: flex;
@@ -183,7 +299,7 @@
             padding: 17px 18px;
             border: 1px solid var(--line);
             border-radius: 13px;
-            background: white;
+            background: var(--paper);
             color: #657168;
             font-size: 13px;
             line-height: 1.55;
@@ -202,6 +318,8 @@
             .shell { padding: 0 20px; }
             .topbar { height: 68px; }
             .top-note { font-size: 11px; }
+            .header-actions { gap: 10px; }
+            .theme-toggle { padding: 7px 8px; font-size: 11px; }
             main { padding: 56px 0 48px; }
             .eyebrow { margin-bottom: 16px; font-size: 10px; }
             h1 { letter-spacing: -2px; }
@@ -214,10 +332,19 @@
             .suggestions { margin-top: 27px; }
             .results-area { margin-top: 38px; }
             .stock-card { padding: 13px; gap: 11px; }
+            .stock-card-main { gap: 11px; }
             .ticker-icon { width: 38px; height: 38px; }
             .stock-name { max-width: 180px; }
             .detail-card { padding: 18px; }
             .detail-grid { grid-template-columns: repeat(2, 1fr); }
+            .estimate-grid { grid-template-columns: 1fr; gap: 8px; }
+            .sim-results { grid-template-columns: 1fr; }
+            .chart-heading-actions { gap: 7px; }
+            .chart-refresh { min-height: 31px; padding: 0 8px; }
+            .estimate-metric { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+            .estimate-metric strong { margin-top: 0; text-align: right; }
+            .chart-price strong { font-size: 15px; }
+            .news-item { gap: 8px; }
             .detail-price strong { font-size: 30px; }
             .disclaimer { margin-top: 38px; }
         }
@@ -237,7 +364,12 @@
             </span>
             <span class="brand-name">clara</span>
         </a>
-        <div class="top-note"><span class="live-dot" aria-hidden="true"></span> Mercado brasileiro</div>
+        <div class="header-actions">
+            <div class="top-note"><span class="live-dot" aria-hidden="true"></span> Mercado brasileiro</div>
+            <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Ativar modo escuro">
+                <span aria-hidden="true">☾</span><span id="theme-label">Modo escuro</span>
+            </button>
+        </div>
     </header>
 
     <main class="shell">
@@ -270,6 +402,14 @@
             </div>
         </section>
 
+        <section class="watchlist" aria-labelledby="watchlist-title">
+            <div class="watchlist-head">
+                <h2 id="watchlist-title">Ações fixadas</h2>
+                <span class="watchlist-note" id="watchlist-count"></span>
+            </div>
+            <div class="watchlist-list" id="watchlist-list" aria-live="polite"></div>
+        </section>
+
         <section class="results-area" id="results-area" aria-live="polite" hidden>
             <div class="results-heading">
                 <h2 id="results-title">Resultados da busca</h2>
@@ -285,6 +425,23 @@
 
     <script>
         const API_BASE = "https://brapi.dev/api";
+        const NEWS_PROXY = "https://api.cors.lol/?url=";
+        const PINNED_KEY = "clara-pinned-stocks-v1";
+        const SIMULATION_KEY = "clara-simulation-v1";
+        const THEME_KEY = "clara-theme-v1";
+        const NEWS_CACHE_KEY = "clara-news-cache-v1";
+        const AUTO_REFRESH_MS = 30 * 60 * 1000;
+        const NEWS_CACHE_MS = 30 * 60 * 1000;
+        const PERIODS = [
+            { label: "1D", range: "1d", interval: "5m" },
+            { label: "5D", range: "5d", interval: "30m" },
+            { label: "1M", range: "1mo", interval: "1d" },
+            { label: "6M", range: "6mo", interval: "1d" },
+            { label: "1A", range: "1y", interval: "1d" },
+            { label: "5A", range: "5y", interval: "1wk" }
+        ];
+        const POSITIVE_TERMS = ["lucro", "recorde", "supera", "cresce", "alta", "avanca", "avanço", "valoriz", "dividendo", "recompra", "acordo", "aprov", "otimismo", "positivo", "positiva", "upgrade", "contrato", "expansao", "expansão", "ganho"];
+        const NEGATIVE_TERMS = ["prejuizo", "prejuízo", "queda", "baixa", "recua", "despenca", "desab", "perde", "cair", "caida", "caída", "desvalor", "tombo", "perda", "investigacao", "investigação", "divida", "dívida", "crise", "risco", "fraude", "multa", "rebaix", "negativo", "negativa", "demissao", "demissão", "corte", "alerta", "pressao", "pressão"];
         const form = document.querySelector("#search-form");
         const input = document.querySelector("#stock-search");
         const resultsArea = document.querySelector("#results-area");
@@ -293,8 +450,18 @@
         const resultsCount = document.querySelector("#results-count");
         const detailPanel = document.querySelector("#stock-detail");
         const suggestions = document.querySelector("#suggestions");
+        const watchlistElement = document.querySelector("#watchlist-list");
+        const watchlistCount = document.querySelector("#watchlist-count");
+        const safeTicker = (ticker) => /^[A-Z0-9]{4,7}$/.test(ticker);
         let searchController;
         let detailController;
+        let chartController;
+        let newsController;
+        let simulationController;
+        let selectedTicker = "";
+        let lastDataRefreshAt = 0;
+        let pinnedStocks = readPinnedStocks();
+        const simulationHistory = new WeakMap();
 
         const money = (value) => Number.isFinite(value)
             ? new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(value)
@@ -304,6 +471,54 @@
             : "—";
         const movementClass = (value) => value > 0 ? "positive" : value < 0 ? "negative" : "";
         const signedPercent = (value) => `${value > 0 ? "+" : ""}${new Intl.NumberFormat("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(value)}%`;
+
+        function setTheme(theme) {
+            const isDark = theme === "dark";
+            document.documentElement.dataset.theme = isDark ? "dark" : "light";
+            document.querySelector("#theme-toggle").setAttribute("aria-label", isDark ? "Ativar modo claro" : "Ativar modo escuro");
+            document.querySelector("#theme-toggle span:first-child").textContent = isDark ? "☀" : "☾";
+            document.querySelector("#theme-label").textContent = isDark ? "Modo claro" : "Modo escuro";
+        }
+
+        try {
+            setTheme(localStorage.getItem(THEME_KEY) || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"));
+        } catch (error) {
+            console.error("Não foi possível carregar a preferência de tema:", error);
+            setTheme("light");
+        }
+
+        document.querySelector("#theme-toggle").addEventListener("click", () => {
+            const theme = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
+            setTheme(theme);
+            try {
+                localStorage.setItem(THEME_KEY, theme);
+            } catch (error) {
+                console.error("Não foi possível salvar a preferência de tema:", error);
+            }
+        });
+
+        function readPinnedStocks() {
+            try {
+                const saved = JSON.parse(localStorage.getItem(PINNED_KEY) || "[]");
+                if (!Array.isArray(saved)) return [];
+                return saved.filter((stock) => stock && typeof stock.ticker === "string" && safeTicker(stock.ticker))
+                    .map((stock) => ({ ticker: stock.ticker, name: String(stock.name || stock.ticker).slice(0, 120) }));
+            } catch (error) {
+                console.error("Não foi possível ler a lista de ações fixadas:", error);
+                return [];
+            }
+        }
+
+        function savePinnedStocks() {
+            try {
+                localStorage.setItem(PINNED_KEY, JSON.stringify(pinnedStocks));
+                return true;
+            } catch (error) {
+                console.error("Não foi possível salvar a lista de ações fixadas:", error);
+                window.alert("Não foi possível salvar as ações neste navegador. Verifique o espaço disponível e as permissões de armazenamento.");
+                return false;
+            }
+        }
 
         function setLoading(message) {
             resultsArea.hidden = false;
@@ -342,6 +557,12 @@
             return response.json();
         }
 
+        async function fetchText(url, signal) {
+            const response = await fetch(url, { signal, headers: { Accept: "application/rss+xml, application/xml, text/xml" } });
+            if (!response.ok) throw new Error(`A consulta de notícias retornou o erro ${response.status}.`);
+            return response.text();
+        }
+
         async function searchStocks(query) {
             const term = query.trim();
             if (!term) {
@@ -351,6 +572,8 @@
             }
             if (searchController) searchController.abort();
             if (detailController) detailController.abort();
+            if (chartController) chartController.abort();
+            if (newsController) newsController.abort();
             searchController = new AbortController();
             suggestions.hidden = true;
             setLoading("Resultados da busca");
@@ -379,17 +602,21 @@
         }
 
         function createStockCard(stock) {
-            const card = document.createElement("button");
-            card.type = "button";
+            const tickerValue = String(stock.stock || "").toUpperCase();
+            const card = document.createElement("article");
             card.className = "stock-card";
+            const open = document.createElement("button");
+            open.type = "button";
+            open.className = "stock-card-main";
+            open.setAttribute("aria-label", `Ver detalhes de ${tickerValue}`);
             const icon = document.createElement("span");
             icon.className = "ticker-icon";
-            icon.textContent = String(stock.stock || "?").slice(0, 5);
+            icon.textContent = (tickerValue || "?").slice(0, 5);
             const info = document.createElement("span");
             info.className = "stock-info";
             const ticker = document.createElement("span");
             ticker.className = "stock-ticker";
-            ticker.textContent = stock.stock || "—";
+            ticker.textContent = tickerValue || "—";
             const name = document.createElement("span");
             name.className = "stock-name";
             name.textContent = stock.name || "Ação brasileira";
@@ -403,8 +630,120 @@
             change.className = `price-change ${movementClass(stock.change)}`;
             change.textContent = Number.isFinite(stock.change) ? signedPercent(stock.change) : "Variação indisponível";
             price.append(value, change);
-            card.append(icon, info, price);
-            card.addEventListener("click", () => loadDetails(stock.stock));
+            open.append(icon, info, price);
+            open.addEventListener("click", () => loadDetails(tickerValue));
+
+            const pin = document.createElement("button");
+            pin.type = "button";
+            pin.className = "pin-button";
+            updatePinButton(pin, tickerValue);
+            pin.addEventListener("click", () => togglePinned(tickerValue, stock.name || tickerValue));
+            card.append(open, pin);
+            return card;
+        }
+
+        function updatePinButton(button, ticker) {
+            const isPinned = pinnedStocks.some((stock) => stock.ticker === ticker);
+            button.classList.toggle("is-pinned", isPinned);
+            button.textContent = isPinned ? "★" : "☆";
+            button.setAttribute("aria-label", isPinned ? `Desafixar ${ticker}` : `Fixar ${ticker}`);
+            button.setAttribute("aria-pressed", String(isPinned));
+            button.title = isPinned ? "Remover das ações fixadas" : "Fixar ação";
+        }
+
+        function togglePinned(ticker, name) {
+            if (!safeTicker(ticker)) return;
+            const existingIndex = pinnedStocks.findIndex((stock) => stock.ticker === ticker);
+            const nextStocks = existingIndex >= 0
+                ? pinnedStocks.filter((stock) => stock.ticker !== ticker)
+                : [...pinnedStocks, { ticker, name }];
+            const previousStocks = pinnedStocks;
+            pinnedStocks = nextStocks;
+            if (!savePinnedStocks()) {
+                pinnedStocks = previousStocks;
+                return;
+            }
+            renderWatchlist();
+            resultsList.querySelectorAll(".pin-button").forEach((button) => {
+                const cardTicker = button.closest(".stock-card")?.querySelector(".stock-ticker")?.textContent;
+                if (cardTicker === ticker) updatePinButton(button, ticker);
+            });
+            updateDetailPinButton();
+        }
+
+        async function renderWatchlist() {
+            watchlistCount.textContent = pinnedStocks.length ? `${pinnedStocks.length} fixada${pinnedStocks.length === 1 ? "" : "s"}` : "";
+            watchlistElement.replaceChildren();
+            if (!pinnedStocks.length) {
+                const empty = document.createElement("p");
+                empty.className = "watchlist-empty";
+                empty.textContent = "Fixe uma ação nos resultados para acompanhar sua cotação aqui. Sua lista fica salva apenas neste navegador.";
+                watchlistElement.append(empty);
+                return;
+            }
+            const loading = document.createElement("div");
+            loading.className = "message";
+            loading.innerHTML = '<span class="spinner" aria-hidden="true"></span><span>Atualizando ações fixadas...</span>';
+            watchlistElement.append(loading);
+            try {
+                const tickers = pinnedStocks.map((stock) => stock.ticker);
+                const data = await fetchJson(`${API_BASE}/quote/${tickers.join(",")}`);
+                const quotes = new Map((data.results || []).map((stock) => [stock.symbol, stock]));
+                watchlistElement.replaceChildren();
+                pinnedStocks.forEach((pinned) => {
+                    watchlistElement.append(createWatchlistCard(pinned, quotes.get(pinned.ticker)));
+                });
+            } catch (error) {
+                watchlistElement.replaceChildren();
+                const message = document.createElement("div");
+                message.className = "message error";
+                message.textContent = "Não foi possível atualizar as cotações fixadas. Sua lista continua salva; tente recarregar a página.";
+                watchlistElement.append(message);
+                console.error("Falha ao atualizar ações fixadas:", error);
+            }
+        }
+
+        function createWatchlistCard(pinned, quote) {
+            const card = document.createElement("article");
+            card.className = "watchlist-card";
+            const open = document.createElement("button");
+            open.type = "button";
+            open.className = "watchlist-open";
+            open.setAttribute("aria-label", `Ver detalhes de ${pinned.ticker}`);
+            const icon = document.createElement("span");
+            icon.className = "ticker-icon";
+            icon.textContent = pinned.ticker.slice(0, 5);
+            const info = document.createElement("span");
+            info.className = "stock-info";
+            const ticker = document.createElement("span");
+            ticker.className = "stock-ticker";
+            ticker.textContent = pinned.ticker;
+            const name = document.createElement("span");
+            name.className = "stock-name";
+            name.textContent = quote?.longName || pinned.name;
+            info.append(ticker, name);
+            open.append(icon, info);
+            open.addEventListener("click", () => loadDetails(pinned.ticker));
+
+            const price = document.createElement("span");
+            price.className = "watchlist-price";
+            const value = document.createElement("span");
+            value.className = "price-value";
+            value.textContent = money(quote?.regularMarketPrice);
+            const change = document.createElement("span");
+            change.className = `price-change ${movementClass(quote?.regularMarketChangePercent)}`;
+            change.textContent = Number.isFinite(quote?.regularMarketChangePercent)
+                ? signedPercent(quote.regularMarketChangePercent)
+                : "Cotação indisponível";
+            price.append(value, change);
+
+            const remove = document.createElement("button");
+            remove.type = "button";
+            remove.className = "watchlist-remove";
+            remove.textContent = "×";
+            remove.setAttribute("aria-label", `Desafixar ${pinned.ticker}`);
+            remove.addEventListener("click", () => togglePinned(pinned.ticker, pinned.name));
+            card.append(open, price, remove);
             return card;
         }
 
@@ -421,8 +760,662 @@
             return item;
         }
 
+        function createChartSection(ticker, stock) {
+            const section = document.createElement("section");
+            section.className = "chart-section";
+            section.setAttribute("aria-label", "Gráfico histórico de preços");
+            const heading = document.createElement("div");
+            heading.className = "section-heading";
+            const title = document.createElement("div");
+            const titleText = document.createElement("h3");
+            titleText.textContent = "Trajetória do preço";
+            const hint = document.createElement("p");
+            hint.textContent = "Histórico da cotação com períodos selecionáveis";
+            title.append(titleText, hint);
+            const actions = document.createElement("div");
+            actions.className = "chart-heading-actions";
+            const price = document.createElement("div");
+            price.className = "chart-price";
+            const latest = document.createElement("strong");
+            latest.textContent = money(stock.regularMarketPrice);
+            const change = document.createElement("span");
+            change.className = movementClass(stock.regularMarketChangePercent);
+            change.textContent = Number.isFinite(stock.regularMarketChangePercent)
+                ? `${signedPercent(stock.regularMarketChangePercent)} hoje`
+                : "";
+            price.append(latest, change);
+            const refresh = document.createElement("button");
+            refresh.type = "button";
+            refresh.className = "chart-refresh";
+            refresh.textContent = "Atualizar";
+            refresh.addEventListener("click", () => refreshStockData(ticker));
+            actions.append(price, refresh);
+            heading.append(title, actions);
+
+            const tabs = document.createElement("div");
+            tabs.className = "range-tabs";
+            tabs.setAttribute("role", "group");
+            tabs.setAttribute("aria-label", "Período do gráfico");
+            PERIODS.forEach((period, index) => {
+                const button = document.createElement("button");
+                button.type = "button";
+                button.className = "range-tab";
+                button.textContent = period.label;
+                button.dataset.range = period.range;
+                button.setAttribute("aria-pressed", String(index === 2));
+                button.addEventListener("click", () => {
+                    tabs.querySelectorAll(".range-tab").forEach((tab) => tab.setAttribute("aria-pressed", String(tab === button)));
+                    loadChart(section, ticker, period);
+                });
+                tabs.append(button);
+            });
+
+            const wrap = document.createElement("div");
+            wrap.className = "chart-wrap";
+            const chart = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+            chart.classList.add("price-chart");
+            chart.setAttribute("viewBox", "0 0 760 280");
+            chart.setAttribute("role", "img");
+            chart.setAttribute("aria-label", `Gráfico histórico de ${ticker}`);
+            const tooltip = document.createElement("p");
+            tooltip.className = "chart-tooltip";
+            tooltip.setAttribute("aria-live", "polite");
+            wrap.append(chart, tooltip);
+            const attribution = document.createElement("p");
+            attribution.className = "chart-attribution";
+            const updated = document.createElement("span");
+            updated.className = "chart-updated";
+            attribution.append(document.createTextNode("Fonte: brapi. Valores podem ter atraso. "), updated);
+            section.append(heading, tabs, wrap, attribution);
+            section.dataset.range = PERIODS[2].range;
+            section.dataset.interval = PERIODS[2].interval;
+            loadChart(section, ticker, PERIODS[2]);
+            return section;
+        }
+
+        async function loadChart(section, ticker, period) {
+            if (chartController) chartController.abort();
+            chartController = new AbortController();
+            section.dataset.range = period.range;
+            section.dataset.interval = period.interval;
+            const chart = section.querySelector(".price-chart");
+            const tooltip = section.querySelector(".chart-tooltip");
+            chart.replaceChildren();
+            tooltip.textContent = "Carregando histórico...";
+            try {
+                const query = new URLSearchParams({ range: period.range, interval: period.interval });
+                const data = await fetchJson(`${API_BASE}/quote/${encodeURIComponent(ticker)}?${query}`, chartController.signal);
+                const points = data.results?.[0]?.historicalDataPrice || [];
+                const validPoints = points.filter((point) => Number.isFinite(point.date) && Number.isFinite(point.close));
+                if (!validPoints.length) throw new Error("A fonte não retornou pontos históricos para este período.");
+                drawChart(chart, tooltip, validPoints, period.label);
+                lastDataRefreshAt = Date.now();
+                const timestamp = data.requestedAt ? new Date(data.requestedAt) : new Date();
+                section.querySelector(".chart-updated").textContent = `Última consulta: ${new Intl.DateTimeFormat("pt-BR", { dateStyle: "short", timeStyle: "short" }).format(timestamp)}. Atualiza ao abrir e a cada 30 min enquanto a página está visível.`;
+                const currentPrice = data.results?.[0]?.regularMarketPrice;
+                if (Number.isFinite(currentPrice)) section.querySelector(".chart-price strong").textContent = money(currentPrice);
+            } catch (error) {
+                if (error.name === "AbortError") return;
+                chart.replaceChildren();
+                tooltip.textContent = "Não foi possível carregar o gráfico para este período. Tente novamente.";
+                console.error(`Falha ao carregar o gráfico histórico de ${ticker}:`, error);
+            }
+        }
+
+        function refreshStockData(ticker) {
+            const section = detailPanel.querySelector(".chart-section");
+            const simulator = detailPanel.querySelector(".simulation-section");
+            if (!section || ticker !== selectedTicker) return;
+            const period = PERIODS.find((item) => item.range === section.dataset.range) || PERIODS[2];
+            loadChart(section, ticker, period);
+            if (simulator) loadSimulationHistory(simulator, ticker);
+        }
+
+        document.addEventListener("visibilitychange", () => {
+            if (!document.hidden && selectedTicker && !detailPanel.hidden && Date.now() - lastDataRefreshAt >= AUTO_REFRESH_MS) {
+                refreshStockData(selectedTicker);
+            }
+        });
+        window.setInterval(() => {
+            if (!document.hidden && selectedTicker && !detailPanel.hidden && Date.now() - lastDataRefreshAt >= AUTO_REFRESH_MS) {
+                refreshStockData(selectedTicker);
+            }
+        }, AUTO_REFRESH_MS);
+
+        function drawChart(svg, tooltip, points, periodLabel) {
+            const namespace = "http://www.w3.org/2000/svg";
+            const width = 760;
+            const height = 280;
+            const pad = { top: 16, right: 18, bottom: 36, left: 76 };
+            const plotWidth = width - pad.left - pad.right;
+            const plotHeight = height - pad.top - pad.bottom;
+            const values = points.map((point) => point.close);
+            const minValue = Math.min(...values);
+            const maxValue = Math.max(...values);
+            const padding = (maxValue - minValue) * 0.12 || maxValue * 0.02 || 1;
+            const min = minValue - padding;
+            const max = maxValue + padding;
+            const xAt = (index) => pad.left + (points.length < 2 ? plotWidth / 2 : (index / (points.length - 1)) * plotWidth);
+            const yAt = (value) => pad.top + ((max - value) / (max - min)) * plotHeight;
+            const make = (name, attrs = {}) => {
+                const element = document.createElementNS(namespace, name);
+                Object.entries(attrs).forEach(([key, value]) => element.setAttribute(key, value));
+                return element;
+            };
+            svg.replaceChildren();
+            const defs = make("defs");
+            const gradient = make("linearGradient", { id: "chart-fill", x1: "0", x2: "0", y1: "0", y2: "1" });
+            gradient.append(make("stop", { offset: "0%", "stop-color": "#176b48", "stop-opacity": ".18" }));
+            gradient.append(make("stop", { offset: "100%", "stop-color": "#176b48", "stop-opacity": "0" }));
+            defs.append(gradient);
+            svg.append(defs);
+
+            for (let index = 0; index <= 4; index += 1) {
+                const y = pad.top + (index / 4) * plotHeight;
+                const value = max - (index / 4) * (max - min);
+                svg.append(make("line", { x1: pad.left, y1: y, x2: width - pad.right, y2: y, class: "chart-grid-line" }));
+                const label = make("text", { x: pad.left - 10, y: y + 4, "text-anchor": "end", class: "chart-axis-label" });
+                label.textContent = new Intl.NumberFormat("pt-BR", { maximumFractionDigits: 2 }).format(value);
+                svg.append(label);
+            }
+
+            const coordinates = points.map((point, index) => ({ x: xAt(index), y: yAt(point.close), point }));
+            const pathData = coordinates.map((position, index) => `${index ? "L" : "M"}${position.x.toFixed(2)},${position.y.toFixed(2)}`).join(" ");
+            const areaData = `${pathData} L${coordinates.at(-1).x.toFixed(2)},${(pad.top + plotHeight).toFixed(2)} L${coordinates[0].x.toFixed(2)},${(pad.top + plotHeight).toFixed(2)} Z`;
+            svg.append(make("path", { d: areaData, class: "chart-area" }));
+            svg.append(make("path", { d: pathData, class: "chart-line" }));
+
+            [0, Math.floor((points.length - 1) / 2), points.length - 1].forEach((index) => {
+                const date = new Date(points[index].date * 1000);
+                const formatted = periodLabel === "1D"
+                    ? new Intl.DateTimeFormat("pt-BR", { hour: "2-digit", minute: "2-digit" }).format(date)
+                    : new Intl.DateTimeFormat("pt-BR", { day: "2-digit", month: "short" }).format(date);
+                const label = make("text", {
+                    x: xAt(index),
+                    y: height - 8,
+                    "text-anchor": index === 0 ? "start" : index === points.length - 1 ? "end" : "middle",
+                    class: "chart-axis-label"
+                });
+                label.textContent = formatted;
+                svg.append(label);
+            });
+
+            const cursor = make("line", { y1: pad.top, y2: pad.top + plotHeight, class: "chart-cursor", visibility: "hidden" });
+            const marker = make("circle", { r: "5", class: "chart-marker", visibility: "hidden" });
+            svg.append(cursor, marker);
+            const formatPoint = (index) => {
+                const date = new Date(points[index].date * 1000);
+                return `${new Intl.DateTimeFormat("pt-BR", { dateStyle: "medium", timeStyle: periodLabel === "1D" || periodLabel === "5D" ? "short" : undefined }).format(date)} · ${money(points[index].close)}`;
+            };
+            tooltip.textContent = `${formatPoint(points.length - 1)} · ${points.length} pontos`;
+            svg.onpointermove = (event) => {
+                const rect = svg.getBoundingClientRect();
+                if (!rect.width || points.length < 2) return;
+                const chartX = ((event.clientX - rect.left) / rect.width) * width;
+                const fraction = Math.max(0, Math.min(1, (chartX - pad.left) / plotWidth));
+                const index = Math.round(fraction * (points.length - 1));
+                cursor.setAttribute("x1", String(coordinates[index].x));
+                cursor.setAttribute("x2", String(coordinates[index].x));
+                cursor.setAttribute("visibility", "visible");
+                marker.setAttribute("cx", String(coordinates[index].x));
+                marker.setAttribute("cy", String(coordinates[index].y));
+                marker.setAttribute("visibility", "visible");
+                tooltip.textContent = formatPoint(index);
+            };
+            svg.onpointerleave = () => {
+                cursor.setAttribute("visibility", "hidden");
+                marker.setAttribute("visibility", "hidden");
+                tooltip.textContent = `${formatPoint(points.length - 1)} · ${points.length} pontos`;
+            };
+            svg.querySelector(".chart-line").append(make("title"));
+            svg.querySelector(".chart-line title").textContent = `Trajetória de preços em ${periodLabel}`;
+        }
+
+        function classifyHeadline(title) {
+            const normalized = title.toLocaleLowerCase("pt-BR").normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+            const positive = POSITIVE_TERMS.some((term) => normalized.includes(term.normalize("NFD").replace(/[\u0300-\u036f]/g, "")));
+            const negative = NEGATIVE_TERMS.some((term) => normalized.includes(term.normalize("NFD").replace(/[\u0300-\u036f]/g, "")));
+            if (positive === negative) return "neutral";
+            return positive ? "positive" : "negative";
+        }
+
+        function localDateKey(date) {
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, "0");
+            const day = String(date.getDate()).padStart(2, "0");
+            return `${year}-${month}-${day}`;
+        }
+
+        function dayKey(timestamp) {
+            return localDateKey(new Date(timestamp * 1000));
+        }
+
+        function readSimulationSettings(ticker) {
+            try {
+                const saved = JSON.parse(localStorage.getItem(SIMULATION_KEY) || "{}");
+                return saved[ticker] && typeof saved[ticker] === "object" ? saved[ticker] : {};
+            } catch (error) {
+                console.error("Não foi possível ler os dados da simulação:", error);
+                return {};
+            }
+        }
+
+        function saveSimulationSettings(ticker, values) {
+            try {
+                const saved = JSON.parse(localStorage.getItem(SIMULATION_KEY) || "{}");
+                saved[ticker] = values;
+                localStorage.setItem(SIMULATION_KEY, JSON.stringify(saved));
+                return true;
+            } catch (error) {
+                console.error("Não foi possível salvar os dados da simulação:", error);
+                window.alert("Não foi possível salvar a simulação neste navegador. O cálculo ainda funciona, mas as datas e o valor não ficarão salvos.");
+                return false;
+            }
+        }
+
+        function createSimulatorSection(ticker) {
+            const section = document.createElement("section");
+            section.className = "simulation-section";
+            section.setAttribute("aria-label", "Simulação de investimento fictício");
+            const heading = document.createElement("div");
+            heading.className = "section-heading";
+            const headingText = document.createElement("div");
+            const title = document.createElement("h3");
+            title.textContent = "Simulação fictícia";
+            const hint = document.createElement("p");
+            hint.textContent = `Veja como ${ticker} teria variado entre duas datas.`;
+            headingText.append(title, hint);
+            heading.append(headingText);
+
+            const form = document.createElement("form");
+            form.className = "simulation-form";
+            const fields = document.createElement("div");
+            fields.className = "sim-input-grid";
+            const amountLabel = document.createElement("label");
+            amountLabel.className = "sim-field";
+            amountLabel.append(document.createTextNode("Valor fictício (R$)"));
+            const amount = document.createElement("input");
+            amount.type = "number";
+            amount.name = "amount";
+            amount.min = "1";
+            amount.step = "0.01";
+            amount.required = true;
+            amount.value = readSimulationSettings(ticker).amount || "1000";
+            amountLabel.append(amount);
+
+            const startLabel = document.createElement("label");
+            startLabel.className = "sim-field";
+            startLabel.append(document.createTextNode("Data da aplicação"));
+            const startDate = document.createElement("input");
+            startDate.type = "date";
+            startDate.name = "startDate";
+            startDate.required = true;
+            startDate.value = readSimulationSettings(ticker).startDate || "";
+            startLabel.append(startDate);
+
+            const endLabel = document.createElement("label");
+            endLabel.className = "sim-field";
+            endLabel.append(document.createTextNode("Data para comparar"));
+            const endDate = document.createElement("input");
+            endDate.type = "date";
+            endDate.name = "endDate";
+            endDate.required = true;
+            endDate.value = readSimulationSettings(ticker).endDate || localDateKey(new Date());
+            endLabel.append(endDate);
+            fields.append(amountLabel, startLabel, endLabel);
+
+            const calculate = document.createElement("button");
+            calculate.type = "submit";
+            calculate.className = "simulate-button";
+            calculate.textContent = "Calcular simulação";
+            const status = document.createElement("p");
+            status.className = "sim-status";
+            status.textContent = "Carregando até 5 anos de cotações diárias...";
+            const results = document.createElement("div");
+            results.className = "sim-results";
+            results.hidden = true;
+            form.append(fields, calculate, results, status);
+            form.addEventListener("submit", (event) => {
+                event.preventDefault();
+                if (!form.reportValidity()) return;
+                runSimulation(section, ticker);
+            });
+            [amount, startDate, endDate].forEach((field) => {
+                field.addEventListener("change", () => {
+                    if (amount.value && startDate.value && endDate.value) {
+                        saveSimulationSettings(ticker, {
+                            amount: amount.value,
+                            startDate: startDate.value,
+                            endDate: endDate.value
+                        });
+                    }
+                });
+            });
+            const note = document.createElement("p");
+            note.className = "estimate-note";
+            note.textContent = "Cálculo hipotético com preço histórico de fechamento e frações de ações. Não inclui taxas, impostos, dividendos, liquidez ou outras condições reais de negociação.";
+            section.append(heading, form, note);
+            loadSimulationHistory(section, ticker);
+            return section;
+        }
+
+        async function loadSimulationHistory(section, ticker) {
+            if (simulationController) simulationController.abort();
+            simulationController = new AbortController();
+            const status = section.querySelector(".sim-status");
+            status.textContent = "Atualizando até 5 anos de cotações diárias...";
+            try {
+                const data = await fetchJson(
+                    `${API_BASE}/quote/${encodeURIComponent(ticker)}?range=5y&interval=1d`,
+                    simulationController.signal
+                );
+                const history = data.results?.[0]?.historicalDataPrice || [];
+                const validHistory = history.filter((point) => Number.isFinite(point.date) && Number.isFinite(point.close) && point.close > 0);
+                if (validHistory.length < 2) throw new Error("A API não retornou histórico diário suficiente para simular.");
+                simulationHistory.set(section, validHistory);
+                const startInput = section.querySelector('[name="startDate"]');
+                const endInput = section.querySelector('[name="endDate"]');
+                const earliest = dayKey(validHistory[0].date);
+                const latest = dayKey(validHistory[validHistory.length - 1].date);
+                startInput.min = earliest;
+                startInput.max = latest;
+                endInput.min = earliest;
+                endInput.max = localDateKey(new Date());
+                if (!startInput.value || startInput.value < earliest || startInput.value > latest) {
+                    const defaultIndex = Math.max(0, validHistory.length - 253);
+                    startInput.value = dayKey(validHistory[defaultIndex].date);
+                }
+                if (!endInput.value || endInput.value < earliest) endInput.value = latest;
+                if (endInput.value < startInput.value) endInput.value = latest;
+                status.textContent = `Histórico atualizado. Escolha um valor e duas datas entre ${new Intl.DateTimeFormat("pt-BR").format(new Date(validHistory[0].date * 1000))} e ${new Intl.DateTimeFormat("pt-BR").format(new Date(validHistory.at(-1).date * 1000))}.`;
+                if (section.dataset.hasRun === "true") runSimulation(section, ticker);
+            } catch (error) {
+                if (error.name === "AbortError") return;
+                status.className = "sim-status negative";
+                status.textContent = "Não foi possível carregar o histórico para a simulação. Use Atualizar ou tente novamente mais tarde.";
+                console.error(`Falha ao carregar o histórico da simulação de ${ticker}:`, error);
+            }
+        }
+
+        function runSimulation(section, ticker) {
+            const history = simulationHistory.get(section);
+            const form = section.querySelector(".simulation-form");
+            const amount = Number(form.elements.amount.value);
+            const startDate = form.elements.startDate.value;
+            const endDate = form.elements.endDate.value;
+            const status = section.querySelector(".sim-status");
+            const results = section.querySelector(".sim-results");
+            if (!history || !Number.isFinite(amount) || amount <= 0 || !startDate || !endDate) {
+                status.textContent = "Informe um valor acima de zero e escolha as duas datas.";
+                return;
+            }
+            if (startDate > endDate) {
+                status.textContent = "A data da aplicação precisa ser anterior ou igual à data de comparação.";
+                return;
+            }
+            const buyPoint = history.find((point) => dayKey(point.date) >= startDate);
+            const sellPoint = history.filter((point) => dayKey(point.date) <= endDate).at(-1);
+            if (!buyPoint || !sellPoint || buyPoint.date > sellPoint.date) {
+                status.textContent = "Não há cotações disponíveis para o intervalo escolhido.";
+                return;
+            }
+            const shares = amount / buyPoint.close;
+            const finalValue = shares * sellPoint.close;
+            const profit = finalValue - amount;
+            const returnPercent = (finalValue / amount - 1) * 100;
+            results.replaceChildren();
+            results.append(
+                simulationMetric("Valor fictício inicial", money(amount)),
+                simulationMetric("Valor na data final", money(finalValue)),
+                simulationMetric(profit >= 0 ? "Ganho hipotético" : "Perda hipotética", money(profit), profit >= 0)
+            );
+            results.hidden = false;
+            const sharesText = new Intl.NumberFormat("pt-BR", { maximumFractionDigits: 4 }).format(shares);
+            status.className = `sim-status ${movementClass(profit)}`;
+            status.textContent = `${signedPercent(returnPercent)} no período · ${sharesText} ações fracionárias a ${money(buyPoint.close)} em ${new Intl.DateTimeFormat("pt-BR").format(new Date(buyPoint.date * 1000))}; comparação com ${money(sellPoint.close)} em ${new Intl.DateTimeFormat("pt-BR").format(new Date(sellPoint.date * 1000))}.`;
+            section.dataset.hasRun = "true";
+            saveSimulationSettings(ticker, { amount: form.elements.amount.value, startDate, endDate });
+        }
+
+        function simulationMetric(label, value, isProfit = null) {
+            const item = document.createElement("div");
+            item.className = "sim-profit";
+            if (isProfit === false) item.classList.add("negative");
+            const caption = document.createElement("span");
+            caption.textContent = label;
+            const result = document.createElement("strong");
+            result.textContent = value;
+            item.append(caption, result);
+            return item;
+        }
+
+        function createEstimateSection(ticker) {
+            const section = document.createElement("section");
+            section.className = "estimate-section";
+            section.setAttribute("aria-label", "Cenários indicativos e notícias");
+            const heading = document.createElement("div");
+            heading.className = "section-heading";
+            const title = document.createElement("div");
+            const titleText = document.createElement("h3");
+            titleText.textContent = "Cenários com notícias recentes";
+            const hint = document.createElement("p");
+            hint.textContent = "Leitura automática de manchetes dos últimos 7 dias";
+            title.append(titleText, hint);
+            heading.append(title);
+            const status = document.createElement("div");
+            status.className = "message";
+            status.innerHTML = '<span class="spinner" aria-hidden="true"></span><span>Consultando notícias e histórico de volatilidade...</span>';
+            const results = document.createElement("div");
+            results.className = "estimate-results";
+            const newsList = document.createElement("div");
+            newsList.className = "news-list";
+            section.append(heading, status, results, newsList);
+            loadEstimate(section, ticker);
+            return section;
+        }
+
+        async function loadEstimate(section, ticker) {
+            if (newsController) newsController.abort();
+            newsController = new AbortController();
+            const signal = newsController.signal;
+            const query = `${ticker} when:7d`;
+            const feedUrl = `https://news.google.com/rss/search?q=${encodeURIComponent(query)}&hl=pt-BR&gl=BR&ceid=BR%3Apt-419`;
+            const proxiedUrl = `${NEWS_PROXY}${encodeURIComponent(feedUrl)}`;
+            const status = section.querySelector(".message");
+            const results = section.querySelector(".estimate-results");
+            const newsList = section.querySelector(".news-list");
+            try {
+                const cachedHeadlines = readNewsCache(ticker);
+                const newsPromise = cachedHeadlines
+                    ? Promise.resolve(cachedHeadlines)
+                    : fetchText(proxiedUrl, signal).then((rssText) => {
+                        const headlines = parseNews(rssText);
+                        saveNewsCache(ticker, headlines);
+                        return headlines;
+                    });
+                const [historyData, newsHeadlines] = await Promise.all([
+                    fetchJson(`${API_BASE}/quote/${encodeURIComponent(ticker)}?range=3mo&interval=1d`, signal),
+                    newsPromise
+                ]);
+                const stock = historyData.results?.[0];
+                const points = stock?.historicalDataPrice || [];
+                if (!stock || !Number.isFinite(stock.regularMarketPrice)) {
+                    throw new Error("A cotação atual da ação não foi retornada.");
+                }
+                renderEstimate(results, newsList, stock, points, newsHeadlines);
+                status.hidden = true;
+            } catch (error) {
+                if (error.name === "AbortError") return;
+                status.className = "message error";
+                status.replaceChildren();
+                const text = document.createElement("span");
+                text.textContent = "Não foi possível gerar cenários baseados em notícias agora. As cotações históricas continuam disponíveis.";
+                const retry = document.createElement("button");
+                retry.type = "button";
+                retry.className = "retry-button";
+                retry.textContent = "Tentar novamente";
+                retry.addEventListener("click", () => loadEstimate(section, ticker));
+                const source = document.createElement("a");
+                source.className = "retry-button";
+                source.href = feedUrl;
+                source.target = "_blank";
+                source.rel = "noopener noreferrer";
+                source.textContent = "Abrir Google Notícias";
+                status.append(text, retry, source);
+                console.error(`Falha ao consultar notícias e cenários de ${ticker}:`, error);
+            }
+        }
+
+        function parseNews(rssText) {
+            const documentXml = new DOMParser().parseFromString(rssText, "application/xml");
+            if (documentXml.querySelector("parsererror")) throw new Error("A fonte de notícias retornou um RSS inválido.");
+            return Array.from(documentXml.querySelectorAll("item")).map((item) => {
+                const publishedAt = new Date(item.querySelector("pubDate")?.textContent || "");
+                const link = item.querySelector("link")?.textContent?.trim() || "";
+                return {
+                    title: item.querySelector("title")?.textContent?.trim() || "",
+                    link,
+                    source: item.querySelector("source")?.textContent?.trim() || "Google Notícias",
+                    publishedAt,
+                    tone: classifyHeadline(item.querySelector("title")?.textContent || "")
+                };
+            }).filter((item) => {
+                const age = Date.now() - item.publishedAt.getTime();
+                return item.title && /^https?:\/\//i.test(item.link)
+                    && Number.isFinite(age) && age >= -60 * 60 * 1000 && age <= 7 * 24 * 60 * 60 * 1000;
+            }).slice(0, 8);
+        }
+
+        function readNewsCache(ticker) {
+            try {
+                const cache = JSON.parse(localStorage.getItem(NEWS_CACHE_KEY) || "{}")[ticker];
+                if (!cache || !Number.isFinite(cache.savedAt) || Date.now() - cache.savedAt > NEWS_CACHE_MS || !Array.isArray(cache.headlines)) {
+                    return null;
+                }
+                return cache.headlines.map((item) => ({ ...item, publishedAt: new Date(item.publishedAt) }));
+            } catch (error) {
+                console.error("Não foi possível ler o cache local de notícias:", error);
+                return null;
+            }
+        }
+
+        function saveNewsCache(ticker, headlines) {
+            try {
+                const cache = JSON.parse(localStorage.getItem(NEWS_CACHE_KEY) || "{}");
+                cache[ticker] = { savedAt: Date.now(), headlines };
+                localStorage.setItem(NEWS_CACHE_KEY, JSON.stringify(cache));
+            } catch (error) {
+                console.error("Não foi possível salvar o cache local de notícias:", error);
+            }
+        }
+
+        function renderEstimate(container, newsList, stock, history, headlines) {
+            container.replaceChildren();
+            newsList.replaceChildren();
+            if (!headlines.length) {
+                const empty = document.createElement("div");
+                empty.className = "message";
+                empty.textContent = "Não encontramos manchetes recentes para esta ação. Sem notícias atuais, não exibimos cenário ajustado por notícias.";
+                container.append(empty);
+                return;
+            }
+            const returns = history.slice(1).map((point, index) => {
+                const previous = history[index].adjustedClose || history[index].close;
+                const current = point.adjustedClose || point.close;
+                return previous > 0 && current > 0 ? Math.log(current / previous) : NaN;
+            }).filter(Number.isFinite);
+            if (returns.length < 10) {
+                const insufficient = document.createElement("div");
+                insufficient.className = "message";
+                insufficient.textContent = "Ainda não há pontos históricos suficientes para calcular cenários estatísticos com responsabilidade.";
+                container.append(insufficient);
+                return;
+            }
+            const average = returns.reduce((sum, value) => sum + value, 0) / returns.length;
+            const variance = returns.reduce((sum, value) => sum + (value - average) ** 2, 0) / (returns.length - 1);
+            const monthlyVolatility = Math.sqrt(variance * 21);
+            if (!Number.isFinite(monthlyVolatility) || monthlyVolatility <= 0) {
+                throw new Error("Não foi possível calcular a volatilidade histórica.");
+            }
+
+            const positiveCount = headlines.filter((item) => item.tone === "positive").length;
+            const negativeCount = headlines.filter((item) => item.tone === "negative").length;
+            const toneScore = (positiveCount - negativeCount) / headlines.length;
+            const boundedBias = Math.max(-0.25, Math.min(0.25, toneScore * 0.25)) * monthlyVolatility;
+            const currentPrice = stock.regularMarketPrice;
+            const centerPrice = currentPrice * Math.exp(boundedBias);
+            const lowerPrice = currentPrice * Math.exp(boundedBias - monthlyVolatility);
+            const upperPrice = currentPrice * Math.exp(boundedBias + monthlyVolatility);
+            const metrics = document.createElement("div");
+            metrics.className = "estimate-grid";
+            metrics.append(
+                estimateMetric("Cenário central indicativo", money(centerPrice)),
+                estimateMetric("Faixa estatística (1 mês)", `${money(lowerPrice)} — ${money(upperPrice)}`),
+                estimateMetric("Volatilidade mensal histórica", `${new Intl.NumberFormat("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format((Math.exp(monthlyVolatility) - 1) * 100)}%`)
+            );
+            const sentiment = document.createElement("span");
+            sentiment.className = `estimate-sentiment ${movementClass(toneScore)}`;
+            sentiment.textContent = `Tom das manchetes: ${positiveCount > negativeCount ? "mais positivo" : negativeCount > positiveCount ? "mais negativo" : "misto ou neutro"} · ${headlines.length} notícias`;
+            const note = document.createElement("p");
+            note.className = "estimate-note";
+            note.textContent = "Cenário experimental, não é preço-alvo. A faixa usa a variação diária histórica dos últimos 3 meses; o tom automatizado das manchetes ajusta o centro em no máximo ¼ da volatilidade calculada. Sentimento não mede impacto nem causalidade, e não há garantia de que o preço fique nessa faixa.";
+            container.append(metrics, sentiment, note);
+
+            headlines.forEach((item) => {
+                const row = document.createElement("article");
+                row.className = "news-item";
+                const text = document.createElement("div");
+                const link = document.createElement("a");
+                link.className = "news-link";
+                link.href = item.link;
+                link.target = "_blank";
+                link.rel = "noopener noreferrer";
+                link.textContent = item.title;
+                const meta = document.createElement("span");
+                meta.className = "news-meta";
+                meta.textContent = `${item.source} · ${new Intl.DateTimeFormat("pt-BR", { dateStyle: "short", timeStyle: "short" }).format(item.publishedAt)}`;
+                text.append(link, meta);
+                const tone = document.createElement("span");
+                tone.className = `news-tone ${movementClass(item.tone === "positive" ? 1 : item.tone === "negative" ? -1 : 0)}`;
+                tone.textContent = item.tone === "positive" ? "Positiva" : item.tone === "negative" ? "Negativa" : "Neutra";
+                row.append(text, tone);
+                newsList.append(row);
+            });
+        }
+
+        function estimateMetric(label, value) {
+            const item = document.createElement("div");
+            item.className = "estimate-metric";
+            const caption = document.createElement("span");
+            caption.textContent = label;
+            const result = document.createElement("strong");
+            result.textContent = value;
+            item.append(caption, result);
+            return item;
+        }
+
+        function updateDetailPinButton() {
+            const button = detailPanel.querySelector(".pin-detail");
+            if (!button || !selectedTicker) return;
+            const isPinned = pinnedStocks.some((stock) => stock.ticker === selectedTicker);
+            button.classList.toggle("is-pinned", isPinned);
+            button.setAttribute("aria-pressed", String(isPinned));
+            button.innerHTML = isPinned ? "<span aria-hidden=\"true\">★</span> Fixada" : "<span aria-hidden=\"true\">☆</span> Fixar ação";
+        }
+
         async function loadDetails(ticker) {
+            if (!safeTicker(ticker)) return;
             if (detailController) detailController.abort();
+            if (chartController) chartController.abort();
+            if (newsController) newsController.abort();
+            if (simulationController) simulationController.abort();
+            resultsArea.hidden = false;
+            if (!resultsList.children.length) {
+                resultsTitle.textContent = "Ação selecionada";
+                resultsCount.textContent = "";
+            }
+            selectedTicker = ticker;
+            lastDataRefreshAt = 0;
             detailController = new AbortController();
             detailPanel.hidden = false;
             detailPanel.innerHTML = '<div class="message"><span class="spinner" aria-hidden="true"></span><span>Carregando detalhes da cotação...</span></div>';
@@ -446,13 +1439,20 @@
                 company.textContent = stock.longName || stock.shortName || "Ação brasileira";
                 labels.append(heading, company);
                 title.append(icon, labels);
+                const actions = document.createElement("div");
+                actions.className = "detail-actions";
+                const pin = document.createElement("button");
+                pin.type = "button";
+                pin.className = "pin-detail";
+                pin.addEventListener("click", () => togglePinned(ticker, stock.longName || stock.shortName || ticker));
                 const close = document.createElement("button");
                 close.type = "button";
                 close.className = "close-button";
                 close.setAttribute("aria-label", "Fechar detalhes");
                 close.textContent = "×";
                 close.addEventListener("click", () => { detailPanel.hidden = true; });
-                top.append(title, close);
+                actions.append(pin, close);
+                top.append(title, actions);
 
                 const price = document.createElement("div");
                 price.className = "detail-price";
@@ -487,7 +1487,16 @@
                 timestamp.textContent = date && !Number.isNaN(date.getTime())
                     ? `Última atualização: ${new Intl.DateTimeFormat("pt-BR", { dateStyle: "medium", timeStyle: "short" }).format(date)}`
                     : "Horário da última atualização indisponível.";
-                detailPanel.append(top, price, grid, timestamp);
+                detailPanel.append(
+                    top,
+                    price,
+                    grid,
+                    timestamp,
+                    createChartSection(ticker, stock),
+                    createSimulatorSection(ticker),
+                    createEstimateSection(ticker)
+                );
+                updateDetailPinButton();
             } catch (error) {
                 if (error.name === "AbortError") return;
                 detailPanel.replaceChildren();
@@ -509,6 +1518,7 @@
                 searchStocks(button.dataset.ticker);
             });
         });
+        renderWatchlist();
     </script>
 </body>
 </html>
